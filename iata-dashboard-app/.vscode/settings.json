@@ -1,0 +1,6 @@
+{
+    "prettier.configPath": ".prettierrc",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "files.trimTrailingWhitespace": true
+}

@@ -1,6 +1,6 @@
 import { Component, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-content',
@@ -11,5 +11,4 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 })
 export class ContentComponent {
   @HostBinding('class.app-content') hostClass = true;
-
 }

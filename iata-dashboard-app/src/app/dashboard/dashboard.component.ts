@@ -12,5 +12,4 @@ import { ContentComponent } from '../content/content.component';
 })
 export class DashboardComponent {
   @HostBinding('class.app-dashboard') hostClass = true;
-
 }
