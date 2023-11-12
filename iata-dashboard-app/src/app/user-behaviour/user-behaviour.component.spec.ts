@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContentComponent } from './content.component';
+import { UserBehaviourComponent } from './user-behaviour.component';
 
-describe('ContentComponent', () => {
-  let component: ContentComponent;
-  let fixture: ComponentFixture<ContentComponent>;
+describe('UserBehaviourComponent', () => {
+  let component: UserBehaviourComponent;
+  let fixture: ComponentFixture<UserBehaviourComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ContentComponent]
+      imports: [UserBehaviourComponent]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ContentComponent);
+    fixture = TestBed.createComponent(UserBehaviourComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

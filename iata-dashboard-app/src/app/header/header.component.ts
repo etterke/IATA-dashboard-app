@@ -10,5 +10,4 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent {
   @HostBinding('class.app-header') hostClass = true;
-
 }
