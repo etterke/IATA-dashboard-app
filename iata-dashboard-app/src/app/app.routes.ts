@@ -24,6 +24,7 @@ export const routes: Routes = [
   {
     path: 'content',
     loadComponent: () =>
-      import('./content/content.component').then((m) => m.ContentComponent)
+      import('./content/content.component').then((m) => m.ContentComponent),
+    canActivate: []
   }
 ];
