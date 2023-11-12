@@ -1,30 +1,32 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./components/login/login.component').then((m) => m.LoginComponent)
+  },
   {
     path: 'dashboard',
     loadComponent: () =>
-      import('./dashboard/dashboard.component').then(
+      import('./components/dashboard/dashboard.component').then(
         (m) => m.DashboardComponent
-      )
+      ),
+    canActivate: []
   },
   {
     path: 'navigation',
     loadComponent: () =>
-      import('./header/header.component').then((m) => m.HeaderComponent),
-    children: [
-      {
-        path: 'login',
-        loadComponent: () =>
-          import('./login/login.component').then((m) => m.LoginComponent)
-      }
-    ]
+      import('./components/header/header.component').then(
+        (m) => m.HeaderComponent
+      )
   },
   {
     path: 'content',
     loadComponent: () =>
-      import('./content/content.component').then((m) => m.ContentComponent),
-    canActivate: []
+      import('./components/content/content.component').then(
+        (m) => m.ContentComponent
+      )
   }
 ];
