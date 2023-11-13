@@ -27,7 +27,30 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./components/content/content.component').then(
             (m) => m.ContentComponent
-          )
+          ),
+        children: [
+          {
+            path: 'inventory',
+            loadComponent: () =>
+              import('./components/inventory/inventory.component').then(
+                (m) => m.InventoryComponent
+              )
+          },
+          {
+            path: 'analytics',
+            loadComponent: () =>
+              import(
+                './components/sales-analytics/sales-analytics.component'
+              ).then((m) => m.SalesAnalyticsComponent)
+          },
+          {
+            path: 'user-behaviour',
+            loadComponent: () =>
+              import(
+                './components/user-behaviour/user-behaviour.component'
+              ).then((m) => m.UserBehaviourComponent)
+          }
+        ]
       }
     ]
   },

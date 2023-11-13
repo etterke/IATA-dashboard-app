@@ -14,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 
 export const GREETING: string =
-  'Welcome to IATA E-commerce analytics, please log in to continue';
+  'Welcome to International Air Transport Association E-commerce analytics, please log in to continue';
 
 export interface LoginInfo {
   username: string;

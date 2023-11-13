@@ -1,3 +1,8 @@
+<img
+  class="header-logo"
+  src="../../../assets/icons/iata-logo-transp.webp"
+  height="127"
+  alt="iata-logo-transp.png" />
 <div class="greeting">{{greeting}}</div>
 <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <mat-form-field class="">
@@ -9,5 +14,5 @@
     <mat-label>Password</mat-label>
     <input matInput placeholder="" id="password" formControlName="password" />
   </mat-form-field>
-  <button mat-raised-button type="submit" color="primary">Primary</button>
+  <button mat-raised-button type="submit" color="primary">Log In</button>
 </form>
