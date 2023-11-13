@@ -1,1 +1,16 @@
-<h1>NAVIGATION</h1>
+<header id="header" class="header">
+  <a routerLink="" class="header-logo-link">
+    <img
+      class="header-logo"
+      src="../../../assets/icons/iata-logo-transp.webp"
+      height="127"
+      alt="iata-logo-transp.png" />
+  </a>
+  <ul class="header-menu-list">
+    <li *ngFor="let item of menuItems" class="header-menu-items">
+      <a mat-button href="{{item.link}}" class="menu-item-link"
+        >{{item.title}}</a
+      >
+    </li>
+  </ul>
+</header>

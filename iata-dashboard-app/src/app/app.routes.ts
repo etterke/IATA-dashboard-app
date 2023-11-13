@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'login',
     loadComponent: () =>
@@ -13,7 +13,37 @@ export const routes: Routes = [
       import('./components/dashboard/dashboard.component').then(
         (m) => m.DashboardComponent
       ),
-    canActivate: []
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'content',
+        loadComponent: () =>
+          import('./components/content/content.component').then(
+            (m) => m.ContentComponent
+          )
+      },
+      {
+        path: 'inventory',
+        loadComponent: () =>
+          import('./components/inventory/inventory.component').then(
+            (m) => m.InventoryComponent
+          )
+      },
+      {
+        path: 'analytics',
+        loadComponent: () =>
+          import('./components/sales-analytics/sales-analytics.component').then(
+            (m) => m.SalesAnalyticsComponent
+          )
+      },
+      {
+        path: 'user-behaviour',
+        loadComponent: () =>
+          import('./components/user-behaviour/user-behaviour.component').then(
+            (m) => m.UserBehaviourComponent
+          )
+      }
+    ]
   },
   {
     path: 'navigation',
@@ -22,11 +52,5 @@ export const routes: Routes = [
         (m) => m.HeaderComponent
       )
   },
-  {
-    path: 'content',
-    loadComponent: () =>
-      import('./components/content/content.component').then(
-        (m) => m.ContentComponent
-      )
-  }
+  { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];

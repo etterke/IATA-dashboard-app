@@ -1,8 +1,10 @@
 :host {
     display: flex;
     flex-direction: column;
+    width: 100vw;
+    height: 100vh;
 
     .app-header {
-        height: 20vh;
+        height: 30vh;
     }
 }
