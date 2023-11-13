@@ -1,1 +1,13 @@
-<p>login works!</p>
+<div class="greeting">{{greeting}}</div>
+<form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <mat-form-field class="">
+    <mat-label>Username</mat-label>
+    <input matInput placeholder="" id="username" formControlName="username" />
+  </mat-form-field>
+
+  <mat-form-field class="">
+    <mat-label>Password</mat-label>
+    <input matInput placeholder="" id="password" formControlName="password" />
+  </mat-form-field>
+  <button mat-raised-button type="submit" color="primary">Primary</button>
+</form>
