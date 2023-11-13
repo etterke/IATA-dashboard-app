@@ -9,15 +9,15 @@ interface MenuItem {
 
 const MENU_ITEMS: MenuItem[] = [
   {
-    link: '/dashboard/content/inventory',
+    link: '/dashboard/inventory',
     title: 'Inventory'
   },
   {
-    link: '/dashboard/content/user-behaviour',
+    link: '/dashboard/user-behaviour',
     title: 'User Behaviour'
   },
   {
-    link: '/dashboard/content/analytics',
+    link: '/dashboard/analytics',
     title: 'Sales Analytics'
   }
 ];
