@@ -1,0 +1,50 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "users": [
+    {
+      "id": 1,
+      "username": "esnagy",
+      "password": "kiskutya"
+    },
+    {
+      "id": 2,
+      "username:": "miturbek",
+      "password": "lakers"
+    },
+    {
+      "id": 3,
+      "username": "juturbek",
+      "password": "malfi"
+    }
+  ],
+  "inventory": [
+    {
+      "id": 2,
+      "product": "wing",
+      "stock": "medium",
+      "supplier": "AlItalia"
+    },
+    {
+      "id": 3,
+      "product": "seat",
+      "stock": "sufficient",
+      "supplier": "KLM"
+    }
+  ]
+}
