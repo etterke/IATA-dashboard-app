@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { UserService } from '../../services/user.service';
 
 export const GREETING: string =
   'Welcome to International Air Transport Association E-commerce analytics, please log in to continue';
@@ -27,7 +28,7 @@ export const GREETING: string =
     MatInputModule,
     MatButtonModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, UserService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -38,6 +39,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
     private router: Router,
     private formBuilder: FormBuilder
   ) {}
@@ -50,15 +52,15 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    const isAuthenticated = this.authService.isAuthenticatedUser();
     if (this.loginForm.valid) {
-      this.authService.isAuthenticatedUser().subscribe((response) => {
-        console.log(response, 'login befutott');
-        if (response) {
-          this.router.navigate(['/dashboard']);
-        } else {
-          this.authService.registerUser(this.loginForm.value);
-        }
-      });
+      console.log('login befutott');
+      if (isAuthenticated) {
+        this.router.navigate(['/dashboard']);
+      } else {
+        this.userService.registerUser(this.loginForm.value);
+        this.router.navigate(['/dashboard']);
+      }
     }
   }
 }
