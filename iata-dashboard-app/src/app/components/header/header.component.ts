@@ -1,6 +1,7 @@
 import { Component, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 interface MenuItem {
   link: string;
@@ -25,7 +26,7 @@ const MENU_ITEMS: MenuItem[] = [
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatButtonModule],
+  imports: [CommonModule, RouterModule, MatButtonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
