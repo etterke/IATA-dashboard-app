@@ -1,8 +1,8 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
+  FormBuilder,
   FormControl,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators
@@ -16,10 +16,6 @@ import { MatButtonModule } from '@angular/material/button';
 export const GREETING: string =
   'Welcome to International Air Transport Association E-commerce analytics, please log in to continue';
 
-export interface LoginInfo {
-  username: string;
-  password: string;
-}
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -37,32 +33,30 @@ export interface LoginInfo {
 })
 export class LoginComponent implements OnInit {
   @HostBinding('class.app-login') hostClass = true;
-  loginForm: any;
+  loginForm!: any;
   greeting: string = GREETING;
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({
+    this.loginForm = this.formBuilder.group({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
     });
   }
 
   onSubmit(): void {
-    const username = this.loginForm.get('username').value;
-    const password = this.loginForm.get('password').value;
-
     if (this.loginForm.valid) {
       this.authService.isAuthenticatedUser().subscribe((response) => {
         console.log(response, 'login befutott');
         if (response) {
           this.router.navigate(['/dashboard']);
         } else {
-          this.authService.registerUser({ username, password });
+          this.authService.registerUser(this.loginForm.value);
         }
       });
     }

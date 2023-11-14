@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state): boolean => {
   console.log('guard befutas');
-  const $authentication: Observable<UserDetailsResponse> = inject(AuthService)
+  const $authentication: Observable<UserDetailsResponse[]> = inject(AuthService)
     .isAuthenticatedUser()
     .pipe();
   if ($authentication) {
