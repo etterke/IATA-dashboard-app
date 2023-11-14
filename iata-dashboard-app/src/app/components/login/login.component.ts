@@ -1,18 +1,18 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  FormBuilder,
   FormControl,
+  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../services/user-service/user.service';
+import { UserDetailsResponse } from '../../models/auth.model';
 
 export const GREETING: string =
   'Welcome to International Air Transport Association E-commerce analytics, please log in to continue';
@@ -28,39 +28,57 @@ export const GREETING: string =
     MatInputModule,
     MatButtonModule
   ],
-  providers: [AuthService, UserService],
+  providers: [UserService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnChanges {
   @HostBinding('class.app-login') hostClass = true;
-  loginForm!: any;
+  loginForm: FormGroup;
   greeting: string = GREETING;
+  isExistingUser: boolean = false;
+  users: UserDetailsResponse[] = [];
 
   constructor(
-    private authService: AuthService,
     private userService: UserService,
-    private router: Router,
-    private formBuilder: FormBuilder
-  ) {}
-
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      username: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required)
+    private router: Router
+  ) {
+    this.loginForm = new FormGroup({
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
     });
   }
 
+  ngOnInit(): void {
+    // this.userService.getUsers().pipe(tap((result) => (this.users = result)));
+    this.userService.getUsers().subscribe(
+      (result) => {
+        this.users = result;
+      },
+      (err) => console.log(err)
+    );
+  }
+
+  ngOnChanges() {}
+
   onSubmit(): void {
-    const isAuthenticated = this.authService.isAuthenticatedUser();
-    if (this.loginForm.valid) {
-      console.log('login befutott');
-      if (isAuthenticated) {
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.userService.registerUser(this.loginForm.value);
-        this.router.navigate(['/dashboard']);
-      }
+    const username: string = this.loginForm.get('username')?.value;
+    const password: string = this.loginForm.get('password')?.value;
+    this.findExistingUser(username, password);
+    if (this.isExistingUser) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      console.log('befutott');
+      this.userService.registerUser({ username, password }).subscribe(() => {
+        alert('Employee successfully regsitered');
+      });
+      this.router.navigate(['/login']);
     }
+  }
+
+  findExistingUser(username: string, password: string): void {
+    this.isExistingUser = this.users.some((user) => {
+      user.username === username && user.password === password;
+    });
   }
 }

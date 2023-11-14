@@ -7,12 +7,28 @@
 <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <mat-form-field class="">
     <mat-label>Username</mat-label>
-    <input matInput placeholder="" id="username" formControlName="username" />
+    <input
+      matInput
+      placeholder=""
+      type="text"
+      id="username"
+      formControlName="username" />
   </mat-form-field>
 
   <mat-form-field class="">
     <mat-label>Password</mat-label>
-    <input matInput placeholder="" id="password" formControlName="password" />
+    <input
+      matInput
+      placeholder=""
+      type="text"
+      id="password"
+      formControlName="password" />
   </mat-form-field>
-  <button mat-raised-button type="submit" color="primary">Log In</button>
+  <button
+    mat-raised-button
+    type="submit"
+    color="primary"
+    [disabled]="loginForm.invalid">
+    Log In
+  </button>
 </form>
