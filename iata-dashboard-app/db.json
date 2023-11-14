@@ -63,22 +63,16 @@
       "supplier": "KLM"
     },
     {
-      "product": "asasd",
-      "stock": "sadasd",
-      "supplier": "asdsad",
+      "product": "cockpit",
+      "stock": "low",
+      "supplier": "Malev",
       "id": 4
     },
     {
-      "product": "sdfds",
-      "stock": "df",
-      "supplier": "dsf",
-      "id": 5
-    },
-    {
-      "product": "dfjksjf",
+      "product": "cockpit",
       "stock": "low",
-      "supplier": "dsfdsf",
-      "id": 6
+      "supplier": "United",
+      "id": 5
     }
   ]
 }

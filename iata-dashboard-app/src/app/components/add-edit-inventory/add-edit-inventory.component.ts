@@ -9,12 +9,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {
-  FormBuilder,
   FormControl,
+  FormGroup,
   FormsModule,
-  ReactiveFormsModule
+  ReactiveFormsModule,
+  Validators
 } from '@angular/forms';
-import { InventoryService } from '../../services/inventory.service';
+import { InventoryService } from '../../services/inventory-service/inventory.service';
 
 @Component({
   selector: 'app-add-edit-inventory',
@@ -34,18 +35,18 @@ import { InventoryService } from '../../services/inventory.service';
 export class AddEditInventoryComponent implements OnInit {
   @HostBinding('class.app-add-edit-inventory') hostClass = true;
 
-  inventoryForm: any;
+  inventoryForm: FormGroup;
 
   constructor(
     private inventoryService: InventoryService,
-    private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<AddEditInventoryComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.inventoryForm = this.formBuilder.group({
-      product: new FormControl(''),
-      stock: new FormControl(''),
-      supplier: new FormControl('')
+    this.inventoryForm = new FormGroup({
+      product: new FormControl('', Validators.required),
+      stock: new FormControl('', Validators.required),
+      supplier: new FormControl('', Validators.required)
     });
   }
 
@@ -54,12 +55,20 @@ export class AddEditInventoryComponent implements OnInit {
   }
 
   onFormSubmit() {
-    this.inventoryService
-      .addProduct(this.inventoryForm.value)
-      .subscribe((response) => {
-        console.log(response);
-        alert('Product added successfully');
-        this.dialogRef.close(true);
-      });
+    if (this.data) {
+      this.inventoryService
+        .editProduct(this.data.id, this.inventoryForm.value)
+        .subscribe(() => {
+          alert('Product updated successfully');
+          this.dialogRef.close(true);
+        });
+    } else {
+      this.inventoryService
+        .addProduct(this.inventoryForm.value)
+        .subscribe(() => {
+          alert('Product added successfully');
+          this.dialogRef.close(true);
+        });
+    }
   }
 }

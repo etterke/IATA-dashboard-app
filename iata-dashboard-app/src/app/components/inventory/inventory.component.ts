@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { AddEditInventoryComponent } from '../add-edit-inventory/add-edit-inventory.component';
-import { InventoryService } from '../../services/inventory.service';
+import { InventoryService } from '../../services/inventory-service/inventory.service';
 import { InventoryItemPayload } from '../../models/inventory.model';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -35,21 +35,31 @@ export class InventoryComponent implements OnInit {
   }
 
   openAddEditDialog(): void {
-    this.dialog.open(AddEditInventoryComponent);
+    const dialogRef = this.dialog.open(AddEditInventoryComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getProducts();
+      }
+    });
   }
 
   getProducts(): void {
-    this.inventoryService.getProducts().subscribe((result) => {
-      this.dataSource = result;
-      console.log(result);
-    });
+    this.inventoryService.getProducts().subscribe(
+      (result) => {
+        this.dataSource = result;
+      },
+      (err) => console.log('HTTP Error', err)
+    );
   }
 
   deleteProduct(id: number): void {
-    this.inventoryService.deleteProduct(id).subscribe((result) => {
-      alert('Product deleted');
-      this.getProducts();
-    });
+    this.inventoryService.deleteProduct(id).subscribe(
+      () => {
+        alert('Product deleted');
+        this.getProducts();
+      },
+      (err) => console.log('HTTP Error', err)
+    );
   }
 
   editProduct(data: any): void {
