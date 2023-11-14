@@ -24,15 +24,25 @@
     },
     {
       "id": 2,
-      "username:": "miturbek",
+      "username": "miturbek",
       "password": "lakers"
     },
     {
       "id": 3,
       "username": "juturbek",
       "password": "malfi"
+    },
+    {
+      "username": "erwrwer",
+      "password": "ewrewr",
+      "id": 4
+    },
+    {
+      "username": "erwrwer",
+      "password": "ewrewr",
+      "id": 5
     }
-  ], 
+  ],
   "inventory": [
     {
       "id": 1,
@@ -51,6 +61,24 @@
       "product": "seat",
       "stock": "sufficient",
       "supplier": "KLM"
+    },
+    {
+      "product": "asasd",
+      "stock": "sadasd",
+      "supplier": "asdsad",
+      "id": 4
+    },
+    {
+      "product": "sdfds",
+      "stock": "df",
+      "supplier": "dsf",
+      "id": 5
+    },
+    {
+      "product": "dfjksjf",
+      "stock": "low",
+      "supplier": "dsfdsf",
+      "id": 6
     }
-]
+  ]
 }

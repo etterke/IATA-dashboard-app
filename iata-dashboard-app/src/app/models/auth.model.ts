@@ -1,12 +1,7 @@
 export interface UserDetailsResponse {
   id: number;
-  username: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  username: string;
 }
 
-export interface UserDetailPayload {
-  username: string;
-  password: string;
-}
+export interface UserDetailPayload extends Omit<UserDetailsResponse, 'id'> {}
