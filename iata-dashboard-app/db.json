@@ -32,8 +32,14 @@
       "username": "juturbek",
       "password": "malfi"
     }
-  ],
+  ], 
   "inventory": [
+    {
+      "id": 1,
+      "product": "plane",
+      "stock": "low",
+      "supplier": "Malev"
+    },
     {
       "id": 2,
       "product": "wing",
@@ -46,5 +52,5 @@
       "stock": "sufficient",
       "supplier": "KLM"
     }
-  ]
+]
 }
