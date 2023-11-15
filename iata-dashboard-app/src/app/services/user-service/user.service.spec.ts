@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { UserService } from './user.service';
-import { UserDetailsResponse } from '../../models/auth.model';
+import {
+  UserDetailPayload,
+  UserDetailsResponse
+} from '../../models/auth.model';
 import {
   HttpClientTestingModule,
   HttpTestingController
@@ -32,13 +35,20 @@ describe('UserService', () => {
 
   it('should register users', () => {
     const users: UserDetailsResponse[] = [];
-    const user: UserDetailsResponse = {
-      id: 1,
+    const user: UserDetailPayload = {
       username: 'esnagy',
       password: 'kiskutya'
     };
+    const expectedResult: UserDetailsResponse[] = [
+      {
+        id: 1,
+        username: 'esnagy',
+        password: 'kiskutya'
+      }
+    ];
+
     userService.registerUser(user).subscribe(() => {
-      expect(users).toEqual([...users, user]);
+      expect(users).toEqual(expectedResult);
     });
     const req = httpTestingController.expectOne(testUrl);
     expect(req.request.method).toEqual('POST');

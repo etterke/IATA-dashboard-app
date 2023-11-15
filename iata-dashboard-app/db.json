@@ -41,6 +41,36 @@
       "username": "erwrwer",
       "password": "ewrewr",
       "id": 5
+    },
+    {
+      "username": "esnagy",
+      "password": "kiskutya",
+      "id": 6
+    },
+    {
+      "username": "esnagy",
+      "password": "kiskutya",
+      "id": 7
+    },
+    {
+      "username": "esnagy",
+      "password": "kiskutya",
+      "id": 8
+    },
+    {
+      "username": "esnagy",
+      "password": "kiskutya",
+      "id": 9
+    },
+    {
+      "username": "esnagy",
+      "password": "kiskutya",
+      "id": 10
+    },
+    {
+      "username": "esnagy",
+      "password": "kiskutya",
+      "id": 11
     }
   ],
   "inventory": [
@@ -63,21 +93,15 @@
       "supplier": "KLM"
     },
     {
-      "product": "asasd",
-      "stock": "sadasd",
-      "supplier": "asdsad",
-      "id": 4
-    },
-    {
-      "product": "sdfds",
-      "stock": "df",
-      "supplier": "dsf",
+      "product": "cockpit",
+      "stock": "low",
+      "supplier": "United",
       "id": 5
     },
     {
-      "product": "dfjksjf",
-      "stock": "low",
-      "supplier": "dsfdsf",
+      "product": "seatbelt",
+      "stock": "medium",
+      "supplier": "Iran",
       "id": 6
     }
   ]

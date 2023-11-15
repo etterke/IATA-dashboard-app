@@ -6,10 +6,7 @@ import {
   provideMockRouter
 } from '../../services/mocks/router.mock';
 import { Router } from '@angular/router';
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -17,6 +14,7 @@ import {
   UserDetailsResponse
 } from '../../models/auth.model';
 import { of } from 'rxjs';
+import { provideMockUserService } from '../../services/mocks/user.service.mock';
 
 const users: UserDetailsResponse[] = [
   {
@@ -41,7 +39,6 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let userService: UserService;
   let router: MockRouter;
-  let httpTestingController: HttpTestingController;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -54,17 +51,17 @@ describe('LoginComponent', () => {
         provideMockRouter,
         {
           provide: UserService,
-          useClass: { getUsers: jasmine.isSpy, registerUser: jasmine.isSpy }
+          provideMockUserService
         }
       ]
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(LoginComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    userService = TestBed.inject(UserService);
-    router = TestBed.inject<any>(Router);
-    httpTestingController = TestBed.inject(HttpTestingController);
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(LoginComponent);
+        component = fixture.componentInstance;
+        userService = TestBed.inject(UserService);
+        router = TestBed.inject<any>(Router);
+      });
   });
 
   it('should create', () => {

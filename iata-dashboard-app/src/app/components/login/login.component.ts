@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit, OnChanges {
 
   findExistingUser(username: string, password: string): void {
     this.isExistingUser = this.users.some((user) => {
-      user.username === username && user.password === password;
+      username === user.username && password === user.password;
     });
   }
 }
