@@ -35,8 +35,4 @@ export class ContentComponent {
   @HostBinding('class.app-content') hostClass = true;
 
   menuItems = MENU_ITEMS;
-
-  trackByTitle(index: number, item: MenuItem): string {
-    return item.title;
-  }
 }

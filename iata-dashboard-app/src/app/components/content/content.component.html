@@ -1,9 +1,7 @@
 <mat-sidenav-container class="example-container">
   <mat-sidenav mode="side" opened>
     <mat-list role="list">
-      <mat-list-item
-        *ngFor="let item of menuItems, trackBy: trackByTitle"
-        role="listitem">
+      <mat-list-item *ngFor="let item of menuItems" role="listitem">
         <a mat-button routerLink="{{item.link}}" class="menu-item-link"
           >{{item.title}}</a
         ></mat-list-item

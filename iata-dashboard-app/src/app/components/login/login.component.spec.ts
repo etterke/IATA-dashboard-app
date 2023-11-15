@@ -85,17 +85,11 @@ describe('LoginComponent', () => {
         username: new FormControl('esnagy', Validators.required),
         password: new FormControl('kiskutya', Validators.required)
       });
-      spyOn(component, 'findExistingUser');
 
       component.onSubmit();
-      expect(component.findExistingUser).toHaveBeenCalledWith(
-        'esnagy',
-        'kiskutya'
-      );
     });
 
     it('should call router navigation to dashboard when there is existing user logging in', () => {
-      spyOn(component, 'findExistingUser');
       component.isExistingUser = true;
 
       component.onSubmit();
@@ -107,7 +101,6 @@ describe('LoginComponent', () => {
         username: new FormControl('esnagy', Validators.required),
         password: new FormControl('kiskutya', Validators.required)
       });
-      spyOn(component, 'findExistingUser');
       component.isExistingUser = false;
 
       component.onSubmit();
@@ -116,15 +109,6 @@ describe('LoginComponent', () => {
         password: 'kiskutya'
       } as UserDetailPayload);
       expect(router.navigate).toHaveBeenCalledWith(['/login']);
-    });
-  });
-
-  describe('findExistingUser', () => {
-    it('should set isExistingUser', () => {
-      component.users = users;
-      component.findExistingUser('esnagy', 'kiskutya');
-
-      expect(component.isExistingUser).toEqual(true);
     });
   });
 });

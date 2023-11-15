@@ -1,4 +1,5 @@
-import { Component, HostBinding, OnChanges, OnInit } from '@angular/core';
+/* eslint-disable no-debugger */
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormControl,
@@ -13,6 +14,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { UserService } from '../../services/user-service/user.service';
 import { UserDetailsResponse } from '../../models/auth.model';
+import { AuthService } from '../../services/auth service/auth.service';
+import { Subject, takeUntil } from 'rxjs';
 
 export const GREETING: string =
   'Welcome to International Air Transport Association E-commerce analytics, please log in to continue';
@@ -32,15 +35,18 @@ export const GREETING: string =
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit, OnChanges {
+export class LoginComponent implements OnInit {
   @HostBinding('class.app-login') hostClass = true;
+
   loginForm: FormGroup;
   greeting: string = GREETING;
   isExistingUser: boolean = false;
   users: UserDetailsResponse[] = [];
+  unsubscribe$ = new Subject<void>();
 
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.loginForm = new FormGroup({
@@ -50,7 +56,10 @@ export class LoginComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    // this.userService.getUsers().pipe(tap((result) => (this.users = result)));
+    this.getUsers();
+  }
+
+  getUsers() {
     this.userService.getUsers().subscribe(
       (result) => {
         this.users = result;
@@ -59,26 +68,31 @@ export class LoginComponent implements OnInit, OnChanges {
     );
   }
 
-  ngOnChanges() {}
-
   onSubmit(): void {
     const username: string = this.loginForm.get('username')?.value;
     const password: string = this.loginForm.get('password')?.value;
-    this.findExistingUser(username, password);
-    if (this.isExistingUser) {
-      this.router.navigate(['/dashboard']);
-    } else {
-      console.log('befutott');
-      this.userService.registerUser({ username, password }).subscribe(() => {
-        alert('Employee successfully regsitered');
+    this.authService
+      .login(this.users, username, password)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((value) => {
+        if (value) {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.userService.registerUser({ username, password });
+          this.resetForm();
+          this.router.navigate(['/dashboard']);
+        }
       });
-      this.router.navigate(['/login']);
-    }
   }
 
-  findExistingUser(username: string, password: string): void {
-    this.isExistingUser = this.users.some((user) => {
-      username === user.username && password === user.password;
-    });
+  resetForm() {
+    this.loginForm.reset();
+    this.loginForm.get('username')?.reset();
+    this.loginForm.get('password')?.reset();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

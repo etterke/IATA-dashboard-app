@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ErrorComponent } from './error.component';
+import { RouterModule } from '@angular/router';
+import { provideMockRouter } from '../../services/mocks/router.mock';
 
 describe('ErrorComponent', () => {
   let component: ErrorComponent;
@@ -8,13 +10,12 @@ describe('ErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ErrorComponent]
-    })
-    .compileComponents();
-    
+      imports: [ErrorComponent, RouterModule],
+      providers: [provideMockRouter]
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ErrorComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

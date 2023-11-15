@@ -1,4 +1,10 @@
-import { Component, HostBinding, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Inject,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   MAT_DIALOG_DATA,
@@ -16,6 +22,7 @@ import {
   Validators
 } from '@angular/forms';
 import { InventoryService } from '../../services/inventory-service/inventory.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-edit-inventory',
@@ -32,10 +39,11 @@ import { InventoryService } from '../../services/inventory-service/inventory.ser
   templateUrl: './add-edit-inventory.component.html',
   styleUrl: './add-edit-inventory.component.scss'
 })
-export class AddEditInventoryComponent implements OnInit {
+export class AddEditInventoryComponent implements OnInit, OnDestroy {
   @HostBinding('class.app-add-edit-inventory') hostClass = true;
 
   inventoryForm: FormGroup;
+  unsubscribe$ = new Subject<void>();
 
   constructor(
     private inventoryService: InventoryService,
@@ -58,6 +66,7 @@ export class AddEditInventoryComponent implements OnInit {
     if (this.data) {
       this.inventoryService
         .editProduct(this.data.id, this.inventoryForm.value)
+        .pipe(takeUntil(this.unsubscribe$))
         .subscribe(() => {
           alert('Product updated successfully');
           this.dialogRef.close(true);
@@ -65,10 +74,16 @@ export class AddEditInventoryComponent implements OnInit {
     } else {
       this.inventoryService
         .addProduct(this.inventoryForm.value)
+        .pipe(takeUntil(this.unsubscribe$))
         .subscribe(() => {
           alert('Product added successfully');
           this.dialogRef.close(true);
         });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
