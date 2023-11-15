@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ContentComponent } from './content.component';
+import { provideMockRouter } from '../../services/mocks/router.mock';
 
 describe('ContentComponent', () => {
   let component: ContentComponent;
@@ -8,7 +8,8 @@ describe('ContentComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ContentComponent]
+      imports: [ContentComponent],
+      providers: [provideMockRouter]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ContentComponent);

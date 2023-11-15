@@ -1,12 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { AddEditInventoryComponent } from '../add-edit-inventory/add-edit-inventory.component';
 import { InventoryService } from '../../services/inventory-service/inventory.service';
-import { InventoryItemPayload } from '../../models/inventory.model';
+import {
+  InventoryItemResponse,
+  InventoryRow
+} from '../../models/inventory.model';
 import { MatIconModule } from '@angular/material/icon';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-inventory',
@@ -22,8 +26,12 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './inventory.component.scss'
 })
 export class InventoryComponent implements OnInit {
+  @HostBinding('class.app-inventory') hostClass = true;
+
   displayedColumns: string[] = ['id', 'product', 'stock', 'supplier', 'action'];
-  dataSource!: InventoryItemPayload[];
+  products: InventoryItemResponse[] = [];
+  dataSource: InventoryRow[] = [];
+  unsubscribe$ = new Subject<void>();
 
   constructor(
     private dialog: MatDialog,
@@ -34,35 +42,60 @@ export class InventoryComponent implements OnInit {
     this.getProducts();
   }
 
+  // transformData(products: InventoryItemResponse[]): InventoryRow[] {
+  //   this.dataSource = products.map(product => {
+  //     let row: InventoryRow = {
+  //       displayedColumn: product.id;
+  //       title: product.
+
+  //     }
+  //   })
+  // }
+
   openAddEditDialog(): void {
     const dialogRef = this.dialog.open(AddEditInventoryComponent);
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getProducts();
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((result) => {
+        if (result) {
+          this.getProducts();
+        }
+      });
   }
 
   getProducts(): void {
-    this.inventoryService.getProducts().subscribe(
-      (result) => {
-        this.dataSource = result;
-      },
-      (err) => console.log('HTTP Error', err)
-    );
+    this.inventoryService
+      .getProducts()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        (result) => {
+          this.products = result;
+          // this.transformData(this.products);
+        },
+        (err) => console.log('HTTP Error', err)
+      );
   }
 
   deleteProduct(id: number): void {
-    this.inventoryService.deleteProduct(id).subscribe(
-      () => {
-        alert('Product deleted');
-        this.getProducts();
-      },
-      (err) => console.log('HTTP Error', err)
-    );
+    this.inventoryService
+      .deleteProduct(id)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        () => {
+          alert('Product deleted');
+          this.getProducts();
+        },
+        (err) => console.log('HTTP Error', err)
+      );
   }
 
   editProduct(data: any): void {
     this.dialog.open(AddEditInventoryComponent, { data });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }
