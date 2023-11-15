@@ -13,8 +13,10 @@ import {
   UserDetailPayload,
   UserDetailsResponse
 } from '../../models/auth.model';
-import { of } from 'rxjs';
 import { provideMockUserService } from '../../services/mocks/user.service.mock';
+import { provideMockAuthService } from '../../services/mocks/auth.server.mock';
+import { AuthService } from '../../services/auth service/auth.service';
+import { of } from 'rxjs';
 
 const users: UserDetailsResponse[] = [
   {
@@ -38,6 +40,7 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let userService: UserService;
+  let authService: AuthService;
   let router: MockRouter;
 
   beforeEach(async () => {
@@ -51,7 +54,8 @@ describe('LoginComponent', () => {
         provideMockRouter,
         {
           provide: UserService,
-          provideMockUserService
+          provideMockUserService,
+          provideMockAuthService
         }
       ]
     })
@@ -60,6 +64,7 @@ describe('LoginComponent', () => {
         fixture = TestBed.createComponent(LoginComponent);
         component = fixture.componentInstance;
         userService = TestBed.inject(UserService);
+        authService = TestBed.inject(AuthService);
         router = TestBed.inject<any>(Router);
       });
   });
@@ -69,9 +74,10 @@ describe('LoginComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    spyOn(userService, 'getUsers').and.returnValue(of(users));
+    spyOn(component, 'getUsers');
     component.ngOnInit();
 
+    expect(component.getUsers).toHaveBeenCalledWith();
     expect(component.users).toEqual(users);
   });
 
@@ -79,14 +85,28 @@ describe('LoginComponent', () => {
     beforeEach(() => {
       spyOn(userService, 'registerUser');
       spyOn(router, 'navigate');
+      spyOn(component, 'resetForm');
     });
-    it('should call findExistingUser', () => {
+    it('should call authService', () => {
       component.loginForm = new FormGroup({
         username: new FormControl('esnagy', Validators.required),
         password: new FormControl('kiskutya', Validators.required)
       });
+      component.users = users;
+      spyOn(authService, 'login').and.returnValue(of(true));
 
       component.onSubmit();
+      expect(authService.login).toHaveBeenCalledWith(
+        users,
+        'esnagy',
+        'kiskutya'
+      );
+    });
+
+    it('should call resetForm', () => {
+      component.onSubmit();
+
+      expect(component.resetForm).toHaveBeenCalledWith();
     });
 
     it('should call router navigation to dashboard when there is existing user logging in', () => {
@@ -110,5 +130,14 @@ describe('LoginComponent', () => {
       } as UserDetailPayload);
       expect(router.navigate).toHaveBeenCalledWith(['/login']);
     });
+  });
+
+  describe('resetForm', () => {
+    component.loginForm = new FormGroup({
+      username: new FormControl('esnagy', Validators.required),
+      password: new FormControl('kiskutya', Validators.required)
+    });
+
+    component.resetForm();
   });
 });
