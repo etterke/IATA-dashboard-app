@@ -1,9 +1,3 @@
-<canvas
-  baseChart
-  [type]="'pie'"
-  [datasets]="pieChartDatasets"
-  [labels]="pieChartLabels"
-  [options]="pieChartOptions"
-  [plugins]="pieChartPlugins"
-  [legend]="pieChartLegend">
-</canvas>
+<div class="chart-container">
+  <canvas id="MyChart">{{ chart }}</canvas>
+</div>
