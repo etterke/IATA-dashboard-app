@@ -1,0 +1,12 @@
+{
+  "routes": [
+    "/dashboard",
+    "/dashboard/analytics",
+    "/dashboard/content",
+    "/dashboard/inventory",
+    "/dashboard/user-behaviour",
+    "/error",
+    "/login",
+    "/navigation"
+  ]
+}

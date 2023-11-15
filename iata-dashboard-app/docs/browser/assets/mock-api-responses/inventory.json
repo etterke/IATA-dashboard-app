@@ -1,0 +1,17 @@
+[
+    {
+        "product": "plane",
+        "stock": "low",
+        "supplier": "Malev"
+    },
+    {
+        "product": "wing",
+        "stock": "medium",
+        "supplier": "AlItalia"
+    },
+    {
+        "product": "seat",
+        "stock": "sufficient",
+        "supplier": "KLM"
+    }
+]

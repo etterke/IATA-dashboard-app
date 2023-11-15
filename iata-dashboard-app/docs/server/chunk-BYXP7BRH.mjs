@@ -1,0 +1,2 @@
+import './polyfills.server.mjs';
+import{$ as n,Cb as s,fb as r,gb as i,pc as m,wb as a}from"./chunk-2IWH3EVV.mjs";import"./chunk-KRLCULJA.mjs";var f=(()=>{let e=class e{};e.\u0275fac=function(o){return new(o||e)},e.\u0275cmp=n({type:e,selectors:[["app-user-behaviour"]],standalone:!0,features:[s],decls:2,vars:0,template:function(o,d){o&1&&(r(0,"p"),a(1,"user-behaviour works!"),i())},dependencies:[m]});let t=e;return t})();export{f as UserBehaviourComponent};
