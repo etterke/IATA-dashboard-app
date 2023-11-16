@@ -14,7 +14,10 @@ export const authGuard: CanActivateFn = (route, state) => {
       if (value) {
         return true;
       } else {
-        router.navigate([URL_PATH.ERROR]);
+        alert(
+          'You have not yet signed up, you are being navigated to the sign up page'
+        );
+        router.navigate([URL_PATH.REGISTRATION]);
         return false;
       }
     }),

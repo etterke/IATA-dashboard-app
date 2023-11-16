@@ -13,14 +13,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { UserService } from '../../services/user-service/user.service';
 import { UserDetailsResponse } from '../../models/auth.model';
-import { AuthService } from '../../services/auth service/auth.service';
 import { Subject, takeUntil } from 'rxjs';
 
 export const GREETING: string =
-  'Welcome to International Air Transport Association E-commerce analytics, please log in to continue';
+  'Welcome to International Air Transport Association E-commerce analytics, please sign up to continue';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: true,
   imports: [
     CommonModule,
@@ -31,13 +30,13 @@ export const GREETING: string =
     MatButtonModule
   ],
   providers: [UserService],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss'
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   @HostBinding('class.app-login') hostClass = true;
 
-  loginForm: FormGroup;
+  registerFrom: FormGroup;
   greeting: string = GREETING;
   isExistingUser: boolean = false;
   users: UserDetailsResponse[] = [];
@@ -45,10 +44,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private authService: AuthService,
     private router: Router
   ) {
-    this.loginForm = new FormGroup({
+    this.registerFrom = new FormGroup({
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
     });
@@ -68,24 +66,24 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const username: string = this.loginForm.get('username')?.value;
-    const password: string = this.loginForm.get('password')?.value;
-    this.authService
-      .login(this.users, username, password)
+    const username: string = this.registerFrom.get('username')?.value;
+    const password: string = this.registerFrom.get('password')?.value;
+    this.userService
+      .registerUser({ username, password })
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((value) => {
         if (value) {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/login']);
         } else {
-          this.router.navigate(['/register']);
+          alert('Registration was unsuccessful');
         }
       });
   }
 
   resetForm() {
-    this.loginForm.reset();
-    this.loginForm.get('username')?.reset();
-    this.loginForm.get('password')?.reset();
+    this.registerFrom.reset();
+    this.registerFrom.get('username')?.reset();
+    this.registerFrom.get('password')?.reset();
   }
 
   ngOnDestroy(): void {
