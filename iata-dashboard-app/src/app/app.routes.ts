@@ -9,6 +9,13 @@ export const routes: Routes = [
       import('./components/login/login.component').then((m) => m.LoginComponent)
   },
   {
+    path: URL_PATH.REGISTRATION,
+    loadComponent: () =>
+      import('./components/register/register.component').then(
+        (m) => m.RegisterComponent
+      )
+  },
+  {
     path: URL_PATH.DASHBOARD,
     loadComponent: () =>
       import('./components/dashboard/dashboard.component').then(

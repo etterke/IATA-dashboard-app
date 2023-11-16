@@ -1,5 +1,6 @@
 export const URL_PATH = {
   LOGIN: 'login',
+  REGISTRATION: 'registration',
   DASHBOARD: 'dashboard',
   CONTENT: 'content',
   INVENTORY: 'inventory',

@@ -156,6 +156,21 @@
       "username": "orti",
       "password": "porti",
       "id": 28
+    },
+    {
+      "username": "julcsi",
+      "password": "misi",
+      "id": 29
+    },
+    {
+      "username": "sandor",
+      "password": "katai",
+      "id": 30
+    },
+    {
+      "username": "esnagy",
+      "password": "macko",
+      "id": 31
     }
   ],
   "inventory": [
